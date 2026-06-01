@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulsar News - Portal de Notícias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: #00bcd4;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        .nav-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: #00bcd4;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            overflow: hidden;
+            width: 250px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: white;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-box button {
+            background: #00bcd4;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background: #0097a7;
+        }
+
+        /* Social Media Links */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+            color: #00bcd4;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Featured News */
+        .featured-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .featured-section h2 {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .featured-news {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-card-content {
+            padding: 1rem;
+        }
+
+        .news-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .news-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-meta {
+            font-size: 0.8rem;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.3);
+        }
+
+        .category-card i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #00bcd4;
+        }
+
+        .category-card span {
+            display: block;
+            font-weight: bold;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .sidebar-section h3 {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .recent-news-list {
+            padding: 1rem;
+        }
+
+        .recent-news-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .recent-news-item:last-child {
+            border-bottom: none;
+        }
+
+        .recent-news-item:hover {
+            background: #f8f9fa;
+        }
+
+        .recent-news-item img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+
+        .recent-news-content h4 {
+            font-size: 0.9rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .recent-news-content span {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Ad Spaces */
+        .ad-space {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        .ad-space h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .search-container {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .social-links {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                margin: 1rem auto;
+                gap: 1rem;
+            }
+
+            .featured-news {
+                grid-template-columns: 1fr;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animation for page load */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-satellite-dish"></i>
+                Pulsar5 News
+            </a>
+            
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="#noticias">Notícias</a>
+                <a href="#politicas">Políticas</a>
+                <a href="#economia">Economia</a>
+                <a href="#sociedade">Sociedade</a>
+                <a href="#internacional">Internacional</a>
+                <a href="#desporto">Desporto</a>
+                <a href="#video">Vídeo</a>
+            </nav>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Pesquisar notícias..." id="searchInput">
+                    <button onclick="searchNews()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Main Content Area -->
+        <main>
+            <!-- Featured News Section -->
+            <section class="featured-section fade-in">
+                <h2><i class="fas fa-star"></i> Notícias em Destaque</h2>
+                <div class="featured-news" id="featuredNews">
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/400x200/1e3c72/ffffff?text=Notícia+1" alt="Notícia em destaque">
+                        <div class="news-card-content">
+                            <h3>Economia portuguesa cresce 3.2% no primeiro trimestre</h3>
+                            <p>Os dados oficiais revelam um crescimento sustentado da economia nacional, impulsionado pelo setor turístico...</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> Hoje, 14:30</span>
+                                <span><i class="fas fa-user"></i> Redação</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/400x200/2a5298/ffffff?text=Notícia+2" alt="Notícia em destaque">
+                        <div class="news-card-content">
+                            <h3>Novo acordo climático assinado por 50 países</h3>
+                            <p>A cimeira internacional resulta num compromisso histórico para a redução das emissões de carbono...</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> Hoje, 12:15</span>
+                                <span><i class="fas fa-user"></i> Correspondente</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/400x200/00bcd4/ffffff?text=Notícia+3" alt="Notícia em destaque">
+                        <div class="news-card-content">
+                            <h3>Avanços na tecnologia de carros elétricos</h3>
+                            <p>Nova bateria promete autonomia de 1000km e carregamento em 5 minutos...</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> Hoje, 10:45</span>
+                                <span><i class="fas fa-user"></i> Tech Reporter</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <img src="https://via.placeholder.com/400x200/1976d2/ffffff?text=Notícia+4" alt="Notícia em destaque">
+                        <div class="news-card-content">
+                            <h3>Seleção nacional vence por 3-1 em jogo histórico</h3>
+                            <p>Performance excepcional garante presença no próximo mundial de futebol...</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> Ontem, 22:30</span>
+                                <span><i class="fas fa-user"></i> Desporto</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-section fade-in">
+                <h2><i class="fas fa-th-large"></i> Categorias</h2>
+                <div class="categories-grid">
+                    <a href="#noticias" class="category-card">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Notícias</span>
+                    </a>
+                    <a href="#politicas" class="category-card">
+                        <i class="fas fa-landmark"></i>
+                        <span>Políticas</span>
+                    </a>
+                    <a href="#economia" class="category-card">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Economia</span>
+                    </a>
+                    <a href="#sociedade" class="category-card">
+                        <i class="fas fa-users"></i>
+                        <span>Sociedade</span>
+                    </a>
+                    <a href="#internacional" class="category-card">
+                        <i class="fas fa-globe-americas"></i>
+                        <span>Internacional</span>
+                    </a>
+                    <a href="#desporto" class="category-card">
+                        <i class="fas fa-football-ball"></i>
+                        <span>Desporto</span>
+                    </a>
+                    <a href="#video" class="category-card">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Vídeo</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Ad Space -->
+            <div class="ad-space fade-in">
+                <h4>Espaço Publicitário</h4>
+                <p>Banner 728x90 - Substitua por código de publicidade</p>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Recent News -->
+            <section class="sidebar-section fade-in">
+                <h3><i class="fas fa-clock"></i> Notícias Recentes</h3>
+                <div class="recent-news-list" id="recentNews">
+                    <a href="#" class="recent-news-item">
+                        <img src="https://via.placeholder.com/80x60/1e3c72/ffffff?text=1" alt="Notícia recente">
+                        <div class="recent-news-content">
+                            <h4>Mercado financeiro reage positivamente a novas medidas</h4>
+                            <span>há 2 horas</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="recent-news-item">
+                        <img src="https://via.placeholder.com/80x60/2a5298/ffffff?text=2" alt="Notícia recente">
+                        <div class="recent-news-content">
+                            <h4>Investigação científica descobre nova espécie marinha</h4>
+                            <span>há 4 horas</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="recent-news-item">
+                        <img src="https://via.placeholder.com/80x60/00bcd4/ffffff?text=3" alt="Notícia recente">
+                        <div class="recent-news-content">
+                            <h4>Festival de cinema nacional bate recorde de público</h4>
+                            <span>há 6 horas</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="recent-news-item">
+                        <img src="https://via.placeholder.com/80x60/1976d2/ffffff?text=4" alt="Notícia recente">
+                        <div class="recent-news-content">
+                            <h4>Programa de habitação jovem recebe milhares de candidaturas</h4>
+                            <span>há 8 horas</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="recent-news-item">
+                        <img src="https://via.placeholder.com/80x60/43a047/ffffff?text=5" alt="Notícia recente">
+                        <div class="recent-news-content">
+                            <h4>Energia renovável representa 70% da produção nacional</h4>
+                            <span>há 10 horas</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Ad Space Sidebar -->
+            <div class="ad-space">
+                <h4>Publicidade</h4>
+                <p>Banner 300x250 - Google Ads ou outros</p>
+            </div>
+
+            <!-- Another Ad Space -->
+            <div class="ad-space">
+                <h4>Patrocinado</h4>
+                <p>Conteúdo patrocinado 300x600</p>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Search Functionality
+        function searchNews() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim();
+            
+            if (searchTerm) {
+                alert(`Pesquisando por: "${searchTerm}"\n\nEsta funcionalidade pode ser integrada com API de pesquisa.`);
+                // Aqui você adicionaria a lógica real de pesquisa
+                searchInput.value = '';
+            }
+        }
+
+        // Allow search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchNews();
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.news-card, .category-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+        });
+
+        // Simulate real-time updates (opcional)
+        function updateNewsTimestamps() {
+            const timeElements = document.querySelectorAll('.news-meta span:first-child, .recent-news-content span');
+            timeElements.forEach(element => {
+                // Aqui você poderia implementar lógica para atualizar timestamps
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Add some interactive features
+        document.querySelectorAll('.news-card, .recent-news-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const title = this.querySelector('h3, h4').textContent;
+                alert(`Carregando: "${title}"\n\nEsta funcionalidade direcionaria para a página completa da notícia.`);
+            });
+        });
+
+        // Category navigation
+        document.querySelectorAll('.category-card').forEach(category => {
+            category.addEventListener('click', function(e) {
+                e.preventDefault();
+                const categoryName = this.querySelector('span').textContent;
+                alert(`Navegando para a seção: ${categoryName}\n\nAqui seriam carregadas as notícias desta categoria.`);
+            });
+        });
+    </script>
+</body>
+</html>
